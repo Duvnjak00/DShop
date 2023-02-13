@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Muzika - Registracija na sustav</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body style="background-color: whitesmoke">
+<div class="container vh-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h3>Registracija na sustav</h3>
+          <form th:action="@{/register_user}" th:object="${user}"
+                method="post" style="max-width: 600px; margin: 0 auto;">
+            <div class="m-3">
+              <div class="form-group row">
+                <label class="col-4 col-form-label">E-mail: </label>
+                <div class="col-8">
+                  <input th:unless="${#fields.hasErrors('email')}" type="email" th:field="*{email}" class="form-control" />
+                  <input th:if="${#fields.hasErrors('email')}" type="email" th:field="*{email}" class="form-control  is-invalid" />
+                  <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Lozinka: </label>
+                <div class="col-8">
+                  <input th:unless="${#fields.hasErrors('password')}" type="password" th:field="*{password}" class="form-control" />
+                  <input th:if="${#fields.hasErrors('password')}" type="password" th:field="*{password}" class="form-control is-invalid" />
+                  <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Ponovite lozinku: </label>
+                <div class="col-8">
+                  <input th:unless="${#fields.hasErrors('passwordsEqual') or #fields.hasErrors('passwordRepeat')}" type="password" th:field="*{passwordRepeat}" class="form-control" />
+                  <input th:if="${#fields.hasErrors('passwordsEqual')}" type="password" th:field="*{passwordRepeat}" class="form-control is-invalid" />
+                  <div th:if="${#fields.hasErrors('passwordsEqual')}" th:errors="*{passwordsEqual}" class="invalid-feedback"></div>
+                  <input th:if="${#fields.hasErrors('passwordRepeat')}" type="password" th:field="*{passwordRepeat}" class="form-control is-invalid" />
+                  <div th:if="${#fields.hasErrors('passwordRepeat')}" th:errors="*{passwordRepeat}" class="invalid-feedback"></div>
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Ime: </label>
+                <div class="col-8">
+                  <input th:unless="${#fields.hasErrors('firstname')}" type="text" th:field="*{firstname}" class="form-control"/>
+                  <input th:if="${#fields.hasErrors('firstname')}" type="text" th:field="*{firstname}" class="form-control is-invalid"/>
+                  <div th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Prezime: </label>
+                <div class="col-8">
+                  <input th:unless="${#fields.hasErrors('lastname')}" type="text" th:field="*{lastname}" class="form-control"/>
+                  <input th:if="${#fields.hasErrors('lastname')}" type="text" th:field="*{lastname}" class="form-control is-invalid"/>
+                  <div th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-block btn-primary">Registracija</button>
+              </div>
+              <div>
+                <a href="login" class="mt-2 btn btn-block btn-outline-secondary">Prijavi se</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
