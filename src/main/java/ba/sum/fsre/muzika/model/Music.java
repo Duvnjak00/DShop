@@ -1,17 +1,18 @@
 package ba.sum.fsre.muzika.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name="music")
 public class Music {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private int id;
+    @Column(unique = true, nullable = false, length = 50)
     private String name;
+    @Column(unique = true, nullable = false, length = 50)
     private String author;
+    @Column(unique = true, nullable = false, length = 50)
     private String link;
 
     public Music(int id, String name, String author, String link) {
