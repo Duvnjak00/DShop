@@ -1,29 +1,28 @@
 package ba.sum.fsre.muzika.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name="music")
-public class Music {
+@Table(name="mymusic")
+public class MyMusicList {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int id;
-    @Column(unique = true, nullable = false, length = 50)
+    private int id;
     private String name;
-    @Column(unique = true, nullable = false, length = 50)
     private String author;
-    @Column(unique = true, nullable = false, length = 50)
     private String link;
 
-    public Music(int id, String name, String author, String link) {
 
+    public MyMusicList(int id, String name, String author, String link) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.link = link;
     }
-    public Music( ) {
 
+    public MyMusicList() {
     }
 
     public int getId() {
@@ -57,4 +56,6 @@ public class Music {
     public void setLink(String link) {
         this.link = link;
     }
+
+
 }

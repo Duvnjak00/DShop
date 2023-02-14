@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MusicService {
@@ -19,4 +20,10 @@ public class MusicService {
         return musicRepo.findAll();
     }
 
+    public Music getMusicById(int id){
+        return musicRepo.findById(id).get();
+    }
+    public void deleteMusicById(int id){
+         musicRepo.deleteById(id);
+    }
 }
