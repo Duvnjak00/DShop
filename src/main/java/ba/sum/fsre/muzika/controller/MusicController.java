@@ -2,9 +2,12 @@ package ba.sum.fsre.muzika.controller;
 
 import ba.sum.fsre.muzika.model.Music;
 import ba.sum.fsre.muzika.model.MyMusicList;
+import ba.sum.fsre.muzika.model.UserDetails;
 import ba.sum.fsre.muzika.services.MusicService;
 import ba.sum.fsre.muzika.services.MyMusicListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,8 @@ public class MusicController {
     private MyMusicListService myMusicService;
     @GetMapping("/")
     public String home(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return "home";
     }
     @GetMapping("/music")
