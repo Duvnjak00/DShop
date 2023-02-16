@@ -3,6 +3,8 @@ package ba.sum.fsre.muzika.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="users")
 public class User {
@@ -102,5 +104,24 @@ public class User {
         } catch (NullPointerException e) {
             return false;
         }
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Music> myMusic;
+
+    public Set<Music> getMyMusic() {
+        return myMusic;
+    }
+
+    public void setMyMusic(Set<Music> myMusic) {
+        this.myMusic = myMusic;
+    }
+
+    public void addMyMusic (Music m) {
+        this.myMusic.add(m);
+    }
+
+    public void removeMyMusic (Music m) {
+        this.myMusic.remove(m);
     }
 }

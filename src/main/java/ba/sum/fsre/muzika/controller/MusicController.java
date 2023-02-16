@@ -1,10 +1,10 @@
 package ba.sum.fsre.muzika.controller;
 
 import ba.sum.fsre.muzika.model.Music;
-import ba.sum.fsre.muzika.model.MyMusicList;
+import ba.sum.fsre.muzika.model.User;
 import ba.sum.fsre.muzika.model.UserDetails;
+import ba.sum.fsre.muzika.repositories.UserRepository;
 import ba.sum.fsre.muzika.services.MusicService;
-import ba.sum.fsre.muzika.services.MyMusicListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class MusicController {
@@ -21,7 +22,8 @@ public class MusicController {
     private MusicService service;
 
     @Autowired
-    private MyMusicListService myMusicService;
+    private UserRepository userService;
+
     @GetMapping("/")
     public String home(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -33,6 +35,11 @@ public class MusicController {
         List<Music> list = service.getAllMusic();
         return new ModelAndView("musicList", "music", list);
     }
+    @GetMapping("/new_music")
+    public String newMusic(){
+        return "new_music";
+    }
+
     @PostMapping("/save")
     public String addMusic(@ModelAttribute Music m){
         service.save(m);
@@ -40,30 +47,42 @@ public class MusicController {
     }
     @GetMapping("/my_music")
     public String getMyMusic(Model model){
-        List<MyMusicList>list=myMusicService.getAllMyMusic();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Set<Music> list=userDetails.getUser().getMyMusic();
         model.addAttribute("music", list);
         return "my_music";
     }
 
+    @RequestMapping("/deleteMyList/{id}")
+    public String deleteMyList(@PathVariable("id") int id){
+        Music m=service.getMusicById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User u = userDetails.getUser();
+        u.removeMyMusic(m);
+        return  "redirect:/my_music";
+    }
+
     @RequestMapping("/mylist/{id}")
-        public String getMyList(@PathVariable("id")int id){
-            Music m=service.getMusicById(id);
-            MyMusicList mm= new MyMusicList(m.getId(), m.getName(), m.getAuthor(), m.getLink());
-            myMusicService.saveMyMusic(mm);
-            return "redirect:/music";
-        }
+    public String getMyList(@PathVariable("id")int id){
+        Music m=service.getMusicById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User u = userDetails.getUser();
+        u.addMyMusic(m);
+        return "redirect:/music";
+    }
     @RequestMapping("/editMusic/{id}")
     public String editMusic(@PathVariable("id") int id, Model model){
        Music m=service.getMusicById(id);
        model.addAttribute("music", m);
-        return "music_edit";
+       return "music_edit";
     }
     @RequestMapping("/deleteMusic/{id}")
     public String deleteMusic(@PathVariable("id") int id){
         service.deleteMusicById(id);
         return "redirect:/music";
     }
-
-
 }
 

@@ -2,6 +2,8 @@ package ba.sum.fsre.muzika.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="music")
 public class Music {
@@ -57,4 +59,7 @@ public class Music {
     public void setLink(String link) {
         this.link = link;
     }
+
+    @ManyToMany
+    Set<User> users;
 }

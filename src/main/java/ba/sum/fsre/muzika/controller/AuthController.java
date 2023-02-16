@@ -17,10 +17,6 @@ public class AuthController {
     @Autowired
     private UserRepository userRepo;
 
-  /* @GetMapping("/")
-    public String index (Model model) {
-        return "redirect:home";
-    }*/
     @GetMapping("/register")
     public String showRegistrationForm (Model model) {
         model.addAttribute("user", new User());
@@ -38,17 +34,13 @@ public class AuthController {
         user.setPasswordRepeat(encodedPassword);
         user.setPassword(encodedPassword);
         userRepo.save(user);
-        return "register_success";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
     public String showLoginForm(Model model){
         model.addAttribute("user", new User());
         return "login_form";
-    }
-    @GetMapping("/new_music")
-    public String newMusic(){
-        return "new_music";
     }
 
 
