@@ -30,10 +30,7 @@ public class MusicController {
     @PersistenceContext
     EntityManager entityManager;
 
-    @GetMapping("/")
-    public String home(){
-        return "home";
-    }
+
     @GetMapping("/music")
     public ModelAndView getAllMusic() {
         List<Music> list = service.getAllMusic();
