@@ -2,6 +2,7 @@ package ba.sum.fsre.muzika.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.Session;
 
 import java.util.Set;
 
@@ -106,7 +107,13 @@ public class User {
         }
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "music_users",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "music_id")
+    )
     private Set<Music> myMusic;
 
     public Set<Music> getMyMusic() {
@@ -119,9 +126,11 @@ public class User {
 
     public void addMyMusic (Music m) {
         this.myMusic.add(m);
+        m.getUsers().add(this);
     }
 
     public void removeMyMusic (Music m) {
         this.myMusic.remove(m);
+        m.getUsers().remove(this);
     }
 }

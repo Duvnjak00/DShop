@@ -60,6 +60,14 @@ public class Music {
         this.link = link;
     }
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "myMusic")
     Set<User> users;
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 }
