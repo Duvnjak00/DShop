@@ -1,20 +1,20 @@
 version: '3.7'
 services:
   musicstore:
-    container_name: musicstore
+    container_name: dshop
     build: .
-    image: musicstore:latest
+    image: dshop:latest
     ports:
       - 80:8080
     networks:
-      - musicstore-network
+      - dshop-network
     depends_on:
       - mysql
   mysql:
     image: mysql:latest
     command: --character-set-server=utf8 --collation-server=utf8_general_ci
     networks:
-      - musicstore-network
+      - dshop-network
     environment:
       - MYSQL_ROOT_PASSWORD=lozinka
       - MYSQL_DATABASE=database
@@ -24,5 +24,5 @@ services:
 volumes:
   mysql-data:
 networks:
-  musicstore-network:
+  webshop-network:
     driver: bridge

@@ -10,6 +10,6 @@ RUN mvn -f /home/app/pom.xml clean package -DskipTests
 # Pokretanje aplikacije
 #
 FROM openjdk:18-jdk-slim
-COPY --from=build /home/app/target/MuzikaApplication-0.0.1-SNAPSHOT.jar /usr/local/lib/musicstore.jar
+COPY --from=build /home/app/target/DShopApplication-0.0.1-SNAPSHOT.jar /usr/local/lib/dshop.jar
 EXPOSE 80
-ENTRYPOINT ["java","-jar","/usr/local/lib/musicstore.jar"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/webshop.jar"]
